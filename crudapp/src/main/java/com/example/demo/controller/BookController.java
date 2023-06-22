@@ -24,7 +24,7 @@ public class BookController {
 		private BookRepo bookRepo;
 		
 		
-		@GetMapping
+		@GetMapping("/getAllBook")
 		public ResponseEntity<List<Book>> getAllBook() {
 			try {
 				//using the collections framework
@@ -36,7 +36,7 @@ public class BookController {
 					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 				}
 				
-				return new ResponseEntity<>(HttpStatus.OK);
+				return new ResponseEntity<>(bookList,HttpStatus.OK);
 			}catch (Exception ex){
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
@@ -47,7 +47,7 @@ public class BookController {
 			Optional <Book> bookData = bookRepo.findById(id);
 			
 			if (bookData.isPresent()) {
-				return new ResponseEntity<> (HttpStatus.OK);
+				return new ResponseEntity<>(bookData.get(),HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);	
 				
@@ -57,7 +57,7 @@ public class BookController {
 		public ResponseEntity<Book> addBook(@RequestBody Book book) {
 			Book bookData = bookRepo.save(book);
 						
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(bookData,HttpStatus.OK);
 							
 		}
 		
@@ -79,7 +79,7 @@ public class BookController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		@DeleteMapping
+		@DeleteMapping("/deleteBookById/{id}")
 		public ResponseEntity<HttpStatus> deleteBookById(@PathVariable Long id) {
 			List<Book> bookList = new ArrayList<>();
 			bookRepo.deleteById(id);		
