@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Book;
@@ -52,18 +53,37 @@ public class BookController {
 				
 		}
 		
-		@PostMapping
-		public void addBook() {
-			
+		@PostMapping("/addBook")
+		public ResponseEntity<Book> addBook(@RequestBody Book book) {
+			Book bookData = bookRepo.save(book);
+						
+			return new ResponseEntity<>(HttpStatus.OK);
+							
 		}
 		
-		@PostMapping
-		public void updateBookById() {
+		@PostMapping("/updateBookById/{id}")
+		public ResponseEntity<Book> updateBookById(@PathVariable Long id,@RequestBody Book newBookData) {
+			Optional <Book> oldBookData = bookRepo.findById(id);
 			
+			
+			if (oldBookData.isPresent()) {
+				Book updatedBookData = oldBookData.get();
+				updatedBookData.setTitle(newBookData.getTitle());
+				updatedBookData.setAuthor(newBookData.getAuthor());
+				
+				Book bookObj = bookRepo.save(updatedBookData);
+				
+				return new ResponseEntity<>(bookObj,HttpStatus.OK);
+			}
+			
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
 		@DeleteMapping
-		public void deleteBookById() {
+		public ResponseEntity<HttpStatus> deleteBookById(@PathVariable Long id) {
+			List<Book> bookList = new ArrayList<>();
+			bookRepo.deleteById(id);		
+			return new ResponseEntity<>(HttpStatus.OK);
 			
 		}
 }
