@@ -10,7 +10,7 @@ Get Data From Memory
 <img width="998" alt="Screen Shot 2023-06-22 at 7 05 31 PM" src="https://github.com/shibha20/Books-Management-System/assets/46352532/72adb756-3a48-41d8-976d-c878946d8715">
 
 
-Get All Books after Deleting id 2
+Get All Books after Deleting id 1
 
 <img width="593" alt="Screen Shot 2023-06-22 at 7 06 44 PM" src="https://github.com/shibha20/Books-Management-System/assets/46352532/7fd7a41e-c637-41f3-9604-fee09406939d">
 
